@@ -1,0 +1,110 @@
+---
+title: "TP4 (FAS1001)"
+author: "Joackim Lyonnais"
+format: pdf
+editor: visual
+---
+
+# Classement des pays africains par PIB par habitant en 2022
+
+## Introduction :
+
+Pour commencer, le projet de ce travail portera sur le Web scraping d'un lien de Wikipédia qui concerne le classement des PIB par habitant en 2022 de chacun des pays africains que ce soit subsaharien et non-subsaharien. On a décidé de prendre le PIB par habitant de l'ensemble des pays africains afin de comparer et visualiser la différence que l'habitant moyen reçoit en dollars US en 2022. Cette comparaison permettra d'évaluer qu'est-ce qui font en sorte que certains pays africains ont un PIB par habitant qui sont largement plus élevé que d'autres. L'objectif pour comprendre ces différences en termes de PIB par habitant de ces pays est de connaître les causes et les phénomènes économiques, politiques et institutionnelles qui font en sorte que certains pays du continent africain ont un PIB bien plus élevé que d'autres. Dans le cadre du projet de Web scraping, on vise à savoir qu'elles sont les effets économiques et poilitiques qui font en sorte que le PIB par habitant de certains pays africains est beaucoup plus élevé que d'autres pays en 2022. Cette recherche va servir à connaître si les zones géographiques du continent africain comme l’Afrique de l’Est, de l'Ouest, du Nord, l'Afrique l'Australe, l'Afrique Centrale et l'Afrique saharienne ont géographiquement un lien direct ou indirect avec le PIB par habitant. De plus, l'enjeux de la valeur monétaire et du type de monnaie peut avoir une influence très importante sur le PIB par habitant. Le but derrière cette recherche est d'analyser et de chercher à comprendre économiquement et politiquement ce qui impactent le PIB par habitant des pays africains. Les données dans lesquelles on recueillera sur Wikipédia serviront à analyser et à visualiser les pays africains qui ont une différence relativement marquante sur les autres pays en termes de PIB par habitants. Finalement, on va aussi savoir si les données qu'on aurait recueillie sur Wikipédia vont répondre précisément à notre question de recherche ou non.
+
+## Base de données :
+
+D'abord, il n'y a pas énormément de variables dans la base de données dans laquelle on a sélectionné concernant le taux de PIB par habitant de l'ensemble des pays africains. Seulement trois variables sont en considération dans notre base de données. La première variable est le rang du pays qui sert à savoir quels pays qui ont le plus haut taux de PIB par habitant. Cette variable va permettre de distinguer visuellement les pays africains qui se démarquent davantage en termes du taux de PIB par habitant. La deuxième variable est les noms des pays africains en lien avec le PIB par habitant en 2022. La dernière variable dans cette base de données est le PIB par habitant en dollars.
+
+En effet, afin qu'on puisse transformer le tableau de classement des pays africains par PIB par habitant en parité de pouvoir d'achat en 2022, on a procédé à l'utilisation de Selector Gadget. Pour définir ce que c'est, il s'agit d'une extension de Chrome ou d'autres navigateurs d'Internet d'open source qui facilite la génération et la découverte de sélecteurs CSS sur des sites Web complexes. C'est avec Selector Gadget qu'on va pouvoir sélectionner le tableau du classement des pays africains par PIB par habitant et par la suite le transformer en base de données. Avant cela, on importe le site de Wikipédia en lien avec le PIB par habitant des pays africains sur Rstudio en faisant "read_html" pour que ça devient un document xml qui est importé dans Rstudio. Une fois le document importé, on effectuera une transformation de ce document en base de données en cherchant le code de l'élément html du tableau de clasement de PIB par habitant des pays africains en 2022. Avec Selector Gadget, on peut trouver le code de l'élément html du site Web. L'élément du code qu'on a trouvé avec Selector Gadget est ; "#mw-content-text :nth-child(1)". Une fois cela trouvé, on effectue la commande "pluck" dans Rstudio afin d'indexer les structures du document de donnée. C'est avec la commande "pluck" qu'on peut filtrer l'élément html qu'on veut y travailler dans le but de sélectionné le tableau du PIB par habitant des pays africains. Une fois cela faite, on transforme cette élément html sélectionné en base de données en faisant le code "html_table(fill = T)".
+
+Après que le tableau du classement de PIB par habitant des pays africains soit devenue une base de donnée de R, il faut faire quelques arrangements des variables. On va en premier lieu renommer les trois variables afin de rajouter quelques précisions. Par exemple, la variable "Rang" va se nommer desormais "Rang_du_pays". La variable "Pays en 2022" va se nommer "Pays_africain_en_2022" et la variable "PIB par habitant(en dollars) va se nommer "PIB_par_habitant_en_dollars_US_en_2022". On a précisé la troisième variable en dollars US puisque que les calculs du PIB en dollars se fait toujours en dollars US. Une fois les variables renommées, on va effectuer un nettoyage de variable. La seule variable qui sera nettoyée est la variable "Rang_du_pays" afin de supprimer les données manquantes. En supprimant le seul donné manquant du "Rang_du_pays", cela va faire en sorte que la modalité "Afrique" dans la variable "Pays_africain_en"2022" sera supprimé ainsi que son PIB par habitant. En bref, cela indiquait que le PIB par habitant moyen de l'ensemble des pays africains étaient de 2150\$ US. Cette modalité n'est pas utile dans le cadre du travail, car on analyse uniquement les pays et le continent. Par la suite, on va transformer la variable "PIB_par_habitant_en_dollars_US_en_2022" qui est une variable à la base de caractère en variable numérique dans le but que la création du graphique ne rencontre pas d'irrégularité. En conversant cette variable en variable numérique, on va devoir également effectuer un code de regex afin de supprimer les espaces blancs des chiffres des PIB par habitant des pays africains qui sont supérieurs à 999\$ dans l'objectif que la conversion en variable numérique puisse marcher. Le code de regex en question qui a permis la surpression des espaces blancs des chiffres du PIB par habitants est ; "mutate(PIB_par_habitant_en_dollars_US_en_2022 = str_replace_all(PIB_par_habitant_en_dollars_US_en_2022, "\[\[:space:\]\]", ""))".
+
+Finalement, on va effectuer la commande "glimpse(PIB_habitants_pays_africains_data_clean)" afin de voir la structure finale de la base de données dans laquelle on a fait les nettoyages de variables. Cela indique que les quatre pays qui ont le plus haut taux de PIB par habitant sont le Seychelles avec 13250\$, la Maurice avec 10256\$, le Gabon avec 8820\$ et le Botswana avec 7738\$.
+
+## Analyse de données :
+
+![](images/PIB pays africains PIB par habitant 2022.png)
+
+Ensuite, lorsqu'on va faire la création du graphique de notre base de données nettoyé avec ggplot, les trois variables seront bien évidement prises en considération. La variable x sera les noms des pays africains, la variable y sera le PIB par habitant des pays africains et la variable rang du pays servira à indiquer les couleurs intérieurs des barres du graphique en fonction du rang du pays avec la commande "fill = Rang_du_pays". Le type de graphique qu'on a employé est un graphique à petite bar avec la commande "geom_col", car c'est avec les barres du graphique qu'on peut catégoriser l'ensemble des pays africains. En bref, chaque bar représente le pays en question. Également, plus la couleur devient foncée, cela veut dire que le PIB par habitant du pays est très haut. Lorsque la couleur du bar de graphique est très pâle, cela indique que le PIB par habitant est très bas. On a fait quelques ajustements sur la variable x c'est-à-dire les noms des pays afin qu'ils soient en angle de 90° pour permettre une meilleure visualisation du nom des pays. On a aussi les noms des pays en gras afin d'optimiser la visualisation du graphique. Cela étant, on a fait des ajustements sur la variable y dont le PIB par habitant en effectuant des intervalles de 2500\$ US le PIB par habitant afin mieux faciliter la lecture du graphique à barre, c'est-à-dire ce que les pays font comme PIB par habitant en dollars US. Cet intervalle va de 0\$ à 15000\$. On a ensuite mis le titre du graphique et de la variable x et y.
+
+Ce qu'on constate dans ce graphique, c'est que les pays africains où ils se démarquent le plus en termes de PIB par habitant en dollars US, c'est-à-dire les barres qui ont le bleu plus foncé sont l'Afrique du Sud, le Botswana, le Gabon, la Guinée équatoriale, la Libye, la Maurice, la Namibie et les Seychelles. Ces pays mentionnés ont tous un taux de PIB par habitant supérieur à 5000\$. Géographiquement, les pays de l'Afrique du Nord qui ont les plus haut PIB par habitant est la Libye avec 7616\$, l'Algérie qui est de 4342\$ et l'Égypte avec 4295\$. Ensuite, le Botswana et est le pays qui a le plus haut taux de PIB par habitant de l'Afrique australe avec 7738\$. L'Afrique du Sud est le deuxième pays d'Afrique Australe qui a un taux de PIB par habitant le plus élevé avec 6766\$. Le Namibie est le troisième pays d'Afrique Australe où son PIB par habitat est le plus haut avec 5031\$ Les Seychelles et la Maurice sont les deux pays d'Afrique de l'Est qui ont les plus hauts taux de PIB par habitant avec respectivement 13250\$ et 10256\$. Le Djibouti est le troisième pays Est-Africaine où son PIB est le plus haut avec 3136\$. En Afrique centrale, le Gabon, la Guinée équatoriale et le Sao Tomé-et-Principes sont les trois pays où leurs PIB par habitant sont les plus élevé dans cette région géographique de l'Afrique avec 8820\$, 7182\$ et 2386\$. Les trois pays Ouest africains qui ont les plus grand taux de PIB par habitant est le Cap-Vert avec 3754\$, la Côte d'Ivoire avec 2649\$ et le Ghana avec 2203\$. On peut déduire que la zone géographique des trois pays de chaque zone géographique dans laquelle on a mentionné pour faire des comparaisons sur le PIB par habitant où le taux moyen du PIB par habitant est le plus élevé est l'Afrique de l'Est. Cependant, beaucoup de pays de l'Afrique ont les taux de PIB par habitant les plus bas du continent comme le Burundi, le Madagascar et le Malawi. L'Afrique de l'Ouest est la zone géographique où le PIB moyen par habitant des trois pays mentionnés précédemment est le plus bas.
+
+Pour ce qui est du contexte de la monnaie, la valeur monétaire d'un pays peut avoir un certain impact sur le produit intérieur brut par habitant. La force de la valeur monétaire peut avoir une influence relativement importante sur le produit intérieur brut d'un pays en question. Dans la plupart du temps, lorsque la valeur monétaire d'un pays est forte, cela va faire en sorte que son PIB par habitant risque d'être plus haut. C'est également le même cas pour un pays où sa valeur monétaire est faible, son PIB par habitant risque d'être plus faible. Il peut avoir des exceptions qui contourne cela avec notamment les pays où il y a de l'instabilité politique ou des crises économiques. Par exemple, dans le cas de la zone géographique de l'Afrique Australe, le taux de change pour 1 Pula Botswanéen équivaut à 0.073\$ US et 1 Rand sud-africaine équivaut à 0.053\$ actuellement. Dans cet exemple, la valeur monétaire du Botswana est plus haute que celle de l'Afrique du Sud et le PIB par habitant du Botswana est également plus haute que l'Afrique du Sud. Cet exemple est un détail qui peut parfois expliquer les effets économiques du PIB par habitant concernant la valeur monétaire d'un pays. Un deuxième exemple, la valeur monétaire du Seychelles où 1 roupie seychelloise équivaut à 0.07\$ et que 1 roupie mauricienne est égale à 0.022\$ prouve que lorsque la valeur monétaire est plus forte, il y a plus de chance que le PIB par habitant soit haut. On constate que la seule monnaie qui peut faire exception à cette règle est la monnaie du franc CFA puisque c'est une monnaie commune qui regroupe une dizaine de pays africaines. C'est également le même cas pour la comparaison de la valeur monétaire entre l'Escudo cap-verdien qui équivaut à 0.0098\$ et le franc CFA en Côte d'Ivoire qui est égale à 0.0016\$. Le PIB par habitant du Cap-Vert est supérieur à la Côte-d'Ivoire.
+
+Politiquement, l'instabilité politique d'un régime peut avoir des grandes répercussions sur le PIB par habitant du pays. Lorsque le pouvoir d'achat des citoyens diminue au fur et à mesure, le PIB par habitant risque également de diminuer, car cela indique que le coût de la vie augmente pour les citoyens et qu'il y a plus de chance que la pauvreté s’accentue pour la population. Les pays où le pouvoir d'achats des citoyens est bas, il y a de forte chance que le PIB par habitant soit également plus bas. Bien que les pays africains regorgent de grandes ressources naturelles, la plupart citoyens n'en bénéficient pas réellement, ce qui fait en sorte que le PIB par habitant reste bas malgré tout. En bref, ce qui peut nuire aux PIB par habitant d'un pays, c'est surtout le manque de croissance économique et également l'instabilité politique où cela peut nuire aux niveaux de vie des citoyens.
+
+## Conclusion :
+
+En guise de conclusion, sur les aspects éthiques du Web Scraping, je pense qu'on a le droit de scraper et utilisé les données dans lesquelles on aimerait y travailler et analyser tant et aussi longtemps qu'on a pour mission de respecter la vie privée, l'anonymat et qu'on obtient le consentement éclairé du propriétaire du site Web en question afin de ne pas lui nuire sa réputation et à sa vie également. Lorsqu'on veut collecter des données issues du web scraping, l'aspect de la raisonnabilité et de l'éthique du travail de scraping doivent être prises en considération (Alexander, 2023) Quand on veut faire un projet de web scraping, il est essentiel de valoriser la transparence, la reproductibilité, l'équité, l'autocritique et l'octroi de crédit, car les données originales non éditées peuvent souvent ne pas être les nôtres. (Alexander, 2023) Il est préférable d'obtenir la licence du propriétaire avant d'entamer un projet de web scraping dans laquelle on diffusera possiblement les données publiquement. (Alexander, 2023) Faire du web scraping n'est pas illégal, mais parfois les détails de la légalité du web scraping peut dépendre des juridictions de ce que nous faisons avec et il est donc important d'être attentif lorsqu'on fait du web scraping. (Alexander, 2023) Il est primordial de prioriser la confidentialité avant la reproductibilité. (Alexander, 2023)
+
+Dans le cadre de ce projet de travail, je n'ai pas contacté le responsable du site Web dans laquelle j'ai utilisé pour faire du scaping. Cependant, il est important de contacter le propriétaire du site web lorsqu'on effectuer un projet de scraping où on compte diffuser les données dans la sphère publique parce que le propriétaire doit être au courant si le chercheur est bien intentionné pour son travail ou non. L'aspect de la réputation du propriétaire et de la vie privée sont souvent prises en compte lorsqu'on veut contacter le propriétaire. Lorsqu'on effectue une collecte de données en faisant du scaping, il faut être conscient de la manière dont on fait la demande au propriétaire pour effectuer du scraping avec son site web afin d'empêcher de causer du tort au propriétaire. (Luscombe, 2022) Le problème de l'aspect éthique du web scraping c'est que c'est souvent les chercheurs qui obtiennent l'approbation du propriétaire alors que c'est moins le cas chez les lecteurs qui aimeraient faire du web scraping. (Luscombe, 2022) Il est aussi important pour les chercheurs et mêmes les non-chercheurs qui aimeraient faire du web scraping d'être conscients des dommages potentiels lorsqu’on effectue des grattages ou collecter des données et prendre des mesures pour atténuer les dommages potentiels. (Luscombe, 2022) Les chercheurs doivent plutôt développer des connaissances éthiques, politiques et des directives techniques pour permettre la recherche dans l'intérêt public et encourager aussi aux autres d'appliquer les mêmes consignes. (Luscombe, 2022) Le grattage de données peut ouvrir la voie à des invasions de la vie privée en agégeant des formulaires de données. (Luscombe, 2022) Il est par exemple important de prendre soin supprimer les informations d'identification personnelle des données brutes lorsqu'il s'agit des sites de recherche sensibles. (Luscombe 2022) Finalement, il faut davantage de débats sur l'éthique et les aspects de la légalité lorsqu'on veut effectuer un travail de web scraping, car il est important que les chercheurs et les lecteurs de prendre conscience sur l'importance de l'aspect éthique du travail.
+
+## Bibliographie :
+
+-   Alexander, R. (2023), *Telling Stories with Data: Gather data* dans Université de Toronto : First Edition. Boca Raton: CRC Press, chap:7, p.195-235.
+
+```{=html}
+<!-- -->
+```
+-   Luscombe, A., Dick, K., & Walby, K. (2022), *Algorithmic thinking in the public interest: navigating technical, legal, and ethical hurdles to Web Scraping in the social sciences,* dans Quality & Quantity : International Journal of Methodology, Springer, vol. 56 (3), pages 1023-44.
+
+## Annexe :
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(tidyselect)
+library(rvest)
+library(pdftools)
+library(usethis)
+library(knitr)
+library(twfy)
+library(httr)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(magrittr)
+library(lubridate)
+library(gsubfn)
+library(proto)
+```
+
+```{r}
+
+PIB_habitants_pays_africains <- read_html("https://fr.wikipedia.org/wiki/Classement_des_pays_africains_par_PIB_par_habitant#Notes_et_r%C3%A9f%C3%A9rences") 
+
+PIB_habitants_pays_africains_data <- PIB_habitants_pays_africains |>
+  html_elements("#mw-content-text :nth-child(1)")  |>
+  pluck(6) |>
+  html_table(fill = T)
+
+PIB_habitants_pays_africains_data
+
+PIB_habitants_pays_africains_data_clean <- PIB_habitants_pays_africains_data |>
+  # Renommer les variables
+  rename(Rang_du_pays = "Rang",
+         Pays_africain_en_2022 = "Pays en 2022",
+         PIB_par_habitant_en_dollars_US_en_2022 = "PIB par habitant(en dollars)" ) |>
+  # Nettoyage de variable 
+  filter(Rang_du_pays != "") |>
+  # Transformer en numérique la variable du PIB par habitant
+  mutate(PIB_par_habitant_en_dollars_US_en_2022 = str_replace_all(PIB_par_habitant_en_dollars_US_en_2022, "[[:space:]]", "")) |>
+  mutate(PIB_par_habitant_en_dollars_US_en_2022 = as.numeric(PIB_par_habitant_en_dollars_US_en_2022))
+
+
+
+  
+# Visualisation de la base de données
+glimpse(PIB_habitants_pays_africains_data_clean)
+
+
+# Création de graphique
+ggplot(data = PIB_habitants_pays_africains_data_clean, aes(x = Pays_africain_en_2022, y = PIB_par_habitant_en_dollars_US_en_2022, fill = Rang_du_pays)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, face = "bold")) +
+  scale_y_continuous(limits = c(0, ceiling(max(PIB_habitants_pays_africains_data_clean$PIB_par_habitant_en_dollars_US_en_2022)/2500) * 2500), breaks = seq(0, ceiling(max(PIB_habitants_pays_africains_data_clean$PIB_par_habitant_en_dollars_US_en_2022)/2500) * 2500, 2500)) +
+  labs(x= "Pays africains",
+       y= "PIB par habitant en $ US",
+       title = "Classement des pays africains par PIB par habitant en 2022")
+
+```
