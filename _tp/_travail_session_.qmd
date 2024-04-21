@@ -133,7 +133,7 @@ Cette deuxième figure qui indique à nouveau un modèle linéaire issue d'analy
 
 **Figure #5 :**
 
-![](images/Régression linéaire (model_1) = environnement.png)
+![](images/Régression%20linéaire%20(model_1)%20=%20environnement.png)
 
 La présentation de ce graphique désigne la tendance et les probabilités prédites avec une ligne de régression linéaire concernant la variable indépendante "année" et la variable dépendante "ton_net" ou sentiment politique. L'objectif ici est de voir la ligne de prédiction à travers les enjeux et les tendances de sentiment politique des deux premiers ministres sur l'enjeu de l'environnement. Les points rouge et bleu pâle désignent les discours de Harper et de Trudeau respectivement. Il faut noter que dans la légende de la variable speakerparty que Conservative désigne Stephen Harper et que libéral désigne Justin Trudeau. Comme on l'indiquait dans la figure #4, il n'y avait pas de relation significative entre le sentiment politique et l'enjeu de l'environnement lorsque Harper et Trudeau font des discours politiques au parlement parce que la probabilité prédite est nulle et les deux lignes du graphique, dont celle de Harper et Trudeau, sur l'enjeu de l'environnement ne se touchent pas une seule fois entre 2006 et 2019.
 
@@ -143,7 +143,7 @@ Du côté de Justin Trudeau, il y a une petite pente descendante à travers les 
 
 **Figure #6 :**
 
-![](images/Régression linéaire (model_2) = immigration.png)
+![](images/Régression%20linéaire%20(model_2)%20=%20immigration.png)
 
 Le dernier graphique du travail concerne également la tendance et les probabilités prédites avec une ligne de régression linéaire qui incluent la variable indépendante "année" et la variable dépendante "ton_net" ou sentiment politique. Le but ici est de regarder la ligne de prédiction à travers les enjeux et les tendances de sentiment politique des deux premiers ministres sur l'enjeu de l'immigration. La ligne et les points rouges désignent Harper et ce qui est bleu désigne Trudeau. La figure #5 nous confirme qu'il y avait une relation significative entre le sentiment politique et l'enjeu de l'environnement lorsque Harper et Trudeau font des discours politiques au parlement parce que la probabilité prédite est n'est pas nulle et les deux lignes du graphique dont celle de Harper et Trudeau sur l'enjeu de l'immigration se touchent à quelques reprises entre l'année 2012 et 2013. Les points en couleurs ont défini le nombre de discours fait au parlement.
 
