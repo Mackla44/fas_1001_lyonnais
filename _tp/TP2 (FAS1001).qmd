@@ -1,0 +1,73 @@
+---
+title: "TP2 (FAS1001)"
+author: "Joackim Lyonnais"
+format: pdf
+editor: visual
+---
+
+## {r}
+
+## TP2: Étude de différentes catégories sur le revenu total chez les familles canadiennes sur le niveau d'intérêt à la politique en général pour la population canadienne (option 1).
+
+1.  Introduction : D'abord, le sujet du travail qui sera abordé va concerner sur le lien du revenu total chez les familles canadiennes et le niveau d'intérêt à la politique en général pour la population canadienne. Il arrive souvent que les décisions politiques sont plus concentrées pour les intérêts d'une classe sociale en particulier au détriment d'une autre classe sociale économique. Cela peut entraîner des répercussions sur l'intérêt de chacun sur la politique tout dépendamment des revenus que les différentes familles font. La question dans laquelle on va se concentrer pour ce travail pratique sera de savoir si les différents revenus des familles canadiennes qui désignent à peu près dans quelle classe sociale économique appartient-ils à t-il une relation ou un impact sur le niveau d'intérêt à la politique au Canada. La première donnée qu'on va sélectionnée sera le recensement de la population canadienne de 2021 qui est une donnée observationnelle afin de prendre uniquement la variable du revenu total chez les familles canadiennes. Finalement, la deuxième donnée qui sera utilisée sera l'Étude électorale canadienne de 2021 qui est désignée comme étant une donnée de sondage. Ainsi, l'option 1 sera choisie dans le cadre de ce travail pratique.
+
+```{r}
+library(tidyverse)
+library(caret)
+library(readr)
+library(haven)
+library(dplyr)
+library(ggplot2)
+
+Election_Canadien2021 <- read_table("2021 Canadian Election Study v2.0.tab")
+Recensement_2021 <- read_table("Recensement_2021_Particuliers_FMGD.tab")
+
+
+```
+
+### {r}
+
+### Données et méthodes :
+
+### g
+
+```{r}
+Election_Canadien2021_clean <- Election_Canadien2021 |>
+  select(cps21_interest_gen_1) |>
+  # Nettoyage de variable #
+  rename(interet_pol_gen = cps21_interest_gen_1) |>
+  filter(interet_pol_gen >= 1) |>
+  filter(interet_pol_gen == str_remove(interet_pol_gen, "[aA-zZ]")) |>
+  filter(interet_pol_gen == str_remove(interet_pol_gen, "[.*]"))
+
+
+
+Recensement_2021_clean <- Recensement_2021 |>
+  select(CFInc) |>
+  # Nettoyage de variable #
+  rename(Revenu_total_famille = CFInc) |>
+  filter(Revenu_total_famille >= 1)
+
+
+
+
+
+Data_clean <- bind_rows(Election_Canadien2021_clean, Recensement_2021_clean)
+
+
+   
+```
+
+```         
+```
+
+### {r}
+
+### Résultats de l'analyse :
+
+sccscscx
+
+```{r}
+ggplot(data = Data_clean, aes(x = Revenu_total_famille, y = interet_pol_gen)) +
+  geom_smooth()
+```
